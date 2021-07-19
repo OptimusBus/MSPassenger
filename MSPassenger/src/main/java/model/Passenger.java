@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -9,15 +10,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Passenger.getAllPassengers", query = "SELECT * from Passengers"),
-	@NamedQuery(name="Passenger.getPassengerById", query = "SELECT * from Passengers where passengerId = :id"),
-	@NamedQuery(name="Passenger.getPassengerByEmail", query = "SELECT * from Passengers where email = :email"),
-	@NamedQuery(name="Passenger.getAllPassengersByName", query = "SELECT * from Passengers where name = :name"),
-	@NamedQuery(name="Passenger.getAllPassengersBySurname", query = "SELECT * from Passengers where surname = :surname")
+	@NamedQuery(name="Passenger.getAllPassengers", query = "SELECT p FROM Passenger p"),
+	@NamedQuery(name="Passenger.getPassengerById", query = "SELECT p FROM Passenger p WHERE p.passengerId = :id"),
+	@NamedQuery(name="Passenger.getPassengerByEmail", query = "SELECT p FROM Passenger p WHERE p.email = :email"),
+	@NamedQuery(name="Passenger.getAllPassengersByName", query = "SELECT p FROM Passenger p WHERE p.name = :name"),
+	@NamedQuery(name="Passenger.getAllPassengersBySurname", query = "SELECT p FROM Passenger p WHERE surname = :surname")
 })
 @XmlRootElement
 public class Passenger {
-	private String passengerId;
+	@Id private String passengerId;
 	private String name;
 	private String surname;
 	private int age;
