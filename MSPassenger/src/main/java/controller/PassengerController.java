@@ -6,8 +6,10 @@ import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -18,7 +20,8 @@ import service.*;
 @Produces("application/json")
 @Path("/passengers")
 public class PassengerController {
-	@EJB private BranchLocal branch;
+	//@EJB private BranchLocal branch;
+	
 	private HashMap<String, Passenger> passengers = new HashMap<>(); 
 	
 	public PassengerController() {
@@ -47,5 +50,12 @@ public class PassengerController {
 			return Response.serverError().entity(message).build();
 		}
 		return Response.created(uri).entity(pass).build();
+	}
+	
+	@GET
+	@Path("/{passengerId}")
+	public Response getPassenger(@PathParam("passengerId")String passengerId) {
+		Passenger pass = passengers.get(passengerId);
+		return Response.ok().entity(pass).build();
 	}
 }
