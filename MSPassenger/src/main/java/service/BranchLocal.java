@@ -1,5 +1,8 @@
 package service;
 
-public interface BranchLocal {
+import javax.ejb.Local;
 
+@Local
+public interface BranchLocal {
+	
 }

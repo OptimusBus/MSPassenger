@@ -1,5 +1,5 @@
 package service;
 
-public class Branch {
+public class Branch implements BranchLocal {
 
 }
