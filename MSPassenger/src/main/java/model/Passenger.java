@@ -9,11 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Passenger.getAllPassenger", query = "SELECT * from Passengers"),
+	@NamedQuery(name="Passenger.getAllPassengers", query = "SELECT * from Passengers"),
 	@NamedQuery(name="Passenger.getPassengerById", query = "SELECT * from Passengers where passengerId = :id"),
 	@NamedQuery(name="Passenger.getPassengerByEmail", query = "SELECT * from Passengers where email = :email"),
-	@NamedQuery(name="Passenger.getPassengerByName", query = "SELECT * from Passengers where name = :name"),
-	@NamedQuery(name="Passenger.getPassengerBySurname", query = "SELECT * from Passengers where surname = :surname")
+	@NamedQuery(name="Passenger.getAllPassengersByName", query = "SELECT * from Passengers where name = :name"),
+	@NamedQuery(name="Passenger.getAllPassengersBySurname", query = "SELECT * from Passengers where surname = :surname")
 })
 @XmlRootElement
 public class Passenger {
