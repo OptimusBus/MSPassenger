@@ -2,9 +2,8 @@ package controller;
 
 import java.net.URI;
 import java.util.HashMap;
-import java.util.Random;
 
-import javax.ejb.EJB;
+//import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,29 +13,35 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import model.Passenger;
-import service.*;
+import service.BranchLocal;
 
 @Consumes("application/json")
 @Produces("application/json")
 @Path("/passengers")
 public class PassengerController {
-	//@EJB private BranchLocal branch;
-	private HashMap<String, Passenger> passengers = new HashMap<String, Passenger>(); 
-	
+	private BranchLocal branch;
 	public PassengerController() {
 		super();
 	}
 	
 	@POST
 	@Path("/createPassenger")
-	public Response createPassenger(String username, String email, String password, String name, String surname, int age){
-		return null;
+	public Response createPassenger(String name, String surname, int age, String email){
+		String message = "";
+		//URI uri = null;
+		try {
+			message = branch.createPassenger(name, surname, age, email);
+		}catch(Exception e) {
+			message = "Error while creating new Passenger";
+			Response.serverError().entity(message).build();
+		}
+		return Response.ok().entity(message).build();
 	}
 	
 	@GET
 	@Path("/{passengerId}")
 	public Response getPassenger(@PathParam("passengerId")String passengerId) {
-		Passenger pass = passengers.get(passengerId);
-		return Response.ok().entity(pass).build();
+		Passenger p = branch.getPassengerById(passengerId);
+		return Response.ok().entity(p).build();
 	}
 }

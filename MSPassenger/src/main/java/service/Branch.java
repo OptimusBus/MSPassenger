@@ -3,11 +3,14 @@ package service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
+
 import org.bson.Document;
 
 import db.MongoConnector;
 import model.Passenger;
 
+@Stateless
 public class Branch implements BranchLocal {
 	
 	private MongoConnector mdb;
