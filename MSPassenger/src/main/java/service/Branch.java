@@ -1,47 +1,91 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import org.bson.Document;
 
+import db.MongoConnector;
 import model.Passenger;
 
 public class Branch implements BranchLocal {
-	@PersistenceContext
-	EntityManager em;
 	
+	private MongoConnector mdb;
 	public Branch(){}
 	
-	@Override
-	public String createPassenger(String passengerId, String name, String surname, int age, String email) {
-		Passenger p = new Passenger(passengerId, name, surname, age, email);
-		em.persist(p);
-		return passengerId;
+	public String createPassenger(String name, String surname, int age, String email) {
+		Passenger p = new Passenger(name, surname, age, email);
+		p.createId(mdb.passengerCount()+1);
+		mdb.addPassenger(p);
+		return p.getPassengerId();
 	}
 
-	@Override
 	public List<Passenger> getAllPassenger() {
-		return em.createNamedQuery("Passenger.getAllPassengers", Passenger.class).getResultList();
+		List<Document> doc = mdb.getAllPassengers();
+		if(doc.isEmpty()) {
+			System.err.println("No element found");
+			return null;
+		}
+		return this.convertDocumentList(doc);
 	}
 
-	@Override
 	public Passenger getPassengerById(String passengerId) {
-		return em.find(Passenger.class, passengerId);
+		Document d = mdb.getPassengerById(passengerId);
+		if(d != null) {
+			String name = d.getString("name");
+			String surname = d.getString("surname");
+			int age = d.getInteger("age");
+			String email = d.getString("email");
+			return new Passenger(passengerId, name, surname, age, email);
+		}else {
+			System.err.println("No passenger with id " + passengerId + " found");
+		}
+		return null;
 	}
 
-	@Override
 	public Passenger getPassengerByEmail(String email) {
-		return em.find(Passenger.class, email);
+		Document d = mdb.getPassengerByEmail(email);
+		if(d != null) {
+			String passengerId = d.getString("passengerId");
+			String name = d.getString("name");
+			String surname = d.getString("surname");
+			int age = d.getInteger("age");
+			return new Passenger(passengerId, name, surname, age, email);
+		}else {
+			System.err.println("No passenger with email " + email + " found");
+		}
+		return null;
 	}
 
-	@Override
 	public List<Passenger> getPassengerByName(String name) {
-		return em.createNamedQuery("Passenger.getAllPassengersByName", Passenger.class).getResultList();
+		List<Document> doc = mdb.getPassengerByName(name);
+		if(doc.isEmpty()) {
+			System.err.println("No element found");
+			return null;
+		}
+		return this.convertDocumentList(doc);
 	}
 
-	@Override
 	public List<Passenger> getPassengerBySurname(String surname) {
-		return em.createNamedQuery("Passenger.getAllPassengersBySurname", Passenger.class).getResultList();
+		List<Document> doc = mdb.getPassengerBySurname(surname);
+		if(doc.isEmpty()) {
+			System.err.println("No element found");
+			return null;
+		}
+		return this.convertDocumentList(doc);
 	}
+	
+	public List<Passenger> convertDocumentList(List<Document> doc){
+		List<Passenger> passengers = new ArrayList<Passenger>();		
+		for (Document d : doc) {
+			String passengerId = d.getString("passengerId");
+			String name = d.getString("name");
+			String surname = d.getString("surname");
+			int age = d.getInteger("age");
+			String email = d.getString("email");
+			passengers.add(new Passenger(passengerId, name, surname, age, email));
+		}
+		return passengers;
+	}
+	
 }
