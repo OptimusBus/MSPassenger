@@ -79,7 +79,6 @@ public class MongoConnector {
 		MongoDatabase db = m.getDatabase("PassengersDB");
 		MongoCollection<Document> coll = db.getCollection("passengers");
 		if(coll.find(Filters.eq("passengerId", passengerId)).first() != null) {
-			System.err.println("Sono qui");
 			DeleteResult result = coll.deleteOne(Filters.eq("passengerId", passengerId));
 			return result.wasAcknowledged();
 		}
