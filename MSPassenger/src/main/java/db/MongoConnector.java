@@ -71,12 +71,7 @@ public class MongoConnector {
 	public void addPassenger(Passenger p) {
 		MongoDatabase db = m.getDatabase("PassengersDB");
 		MongoCollection<Document> coll = db.getCollection("passengers");
-		Document pass = new Document();
-		pass.append("passengerId", p.getPassengerId());
-		pass.append("name", p.getName());
-		pass.append("surname", p.getSurname());
-		pass.append("age", p.getAge());
-		pass.append("email",p.getEmail());
+		Document pass = Passenger.convertPassengerToDocument(p);
 		coll.insertOne(pass);
 	}
 	

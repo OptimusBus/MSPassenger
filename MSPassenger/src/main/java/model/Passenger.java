@@ -98,4 +98,14 @@ public class Passenger {
 		String email = d.getString("email");
 		return new Passenger(passengerId, name, surname, age, email);
 	}
+	
+	static public Document convertPassengerToDocument(Passenger p) {
+		Document pass = new Document();
+		pass.append("passengerId", p.getPassengerId());
+		pass.append("name", p.getName());
+		pass.append("surname", p.getSurname());
+		pass.append("age", p.getAge());
+		pass.append("email",p.getEmail());
+		return pass;
+	}
 }

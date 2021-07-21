@@ -68,4 +68,15 @@ public class PassengerReg {
 		String age = d.getString("age");
 		return new PassengerReg(username, password, email, name, surname, age);
 	}
+	
+	static public Document convertPassengerRegToDocument(PassengerReg p) {
+		Document pass = new Document();
+		pass.append("username", p.getUsername());
+		pass.append("password", p.getPassword());
+		pass.append("email",p.getEmail());
+		pass.append("name", p.getName());
+		pass.append("surname", p.getSurname());
+		pass.append("age", p.getAge());
+		return pass;
+	}
 }
