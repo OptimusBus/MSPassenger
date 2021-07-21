@@ -121,6 +121,6 @@ public class PassengerController {
 	public Response removePassenger(@QueryParam("passengerId")String passengerId) {
 		boolean flag = branch.removePassenger(passengerId);
 		if(flag)return Response.ok().entity("Passenger with id: "+passengerId+" is deleted").build();
-		return Response.ok().entity("Impossible to remove the passenger with id: "+passengerId).build();
+		return Response.noContent().entity("Impossible to remove the passenger with id: "+passengerId).build();
 	}
 }
