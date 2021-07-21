@@ -2,6 +2,8 @@ package model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.bson.Document;
+
 @XmlRootElement
 public class Passenger {
 	private String passengerId;
@@ -78,4 +80,22 @@ public class Passenger {
 		else if(len<6)this.passengerId = "PA"+num;
 	}
 	
+	static public Passenger convertDocumentToPassenger(Document d) {
+		String passengerId = d.getString("passengerId");
+		String name = d.getString("name");
+		String surname = d.getString("surname");
+		int age;
+		try {
+			String temp = d.getString("age");
+			age = Integer.parseInt(temp);
+		}catch(ClassCastException e) {
+			try {
+				age = d.getInteger("age");
+			}catch(ClassCastException e1) {
+				age = d.getDouble("age").intValue();
+			}
+		}
+		String email = d.getString("email");
+		return new Passenger(passengerId, name, surname, age, email);
+	}
 }

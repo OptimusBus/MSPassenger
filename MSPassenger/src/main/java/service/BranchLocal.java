@@ -8,7 +8,7 @@ import model.Passenger;
 
 @Local
 public interface BranchLocal {
-	public String createPassenger(String name, String surname, int age, String email);
+	public String createPassenger(String name, String surname, String age, String email);
 	public List<Passenger> getAllPassenger();
 	public Passenger getPassengerById(String passengerId);
 	public Passenger getPassengerByEmail(String email);

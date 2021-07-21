@@ -16,8 +16,14 @@ public class Branch implements BranchLocal {
 	private MongoConnector mdb = new MongoConnector();
 	public Branch(){}
 	
-	public String createPassenger(String name, String surname, int age, String email) {
-		Passenger p = new Passenger(name, surname, age, email);
+	public String createPassenger(String name, String surname, String age, String email) {
+		int a;
+		try {
+			a = Integer.parseInt(age);
+		}catch(NumberFormatException e){
+			a = 0;
+		}
+		Passenger p = new Passenger(name, surname, a, email);
 		p.createId(mdb.passengerCount()+1);
 		Document temp = mdb.getPassengerById(p.getPassengerId());
 		int c = 1;
@@ -42,7 +48,7 @@ public class Branch implements BranchLocal {
 	public Passenger getPassengerById(String passengerId) {
 		Document d = mdb.getPassengerById(passengerId);
 		if(d != null) {
-			return this.convertDocumentToPassenger(d);
+			return Passenger.convertDocumentToPassenger(d);
 		}else {
 			System.err.println("No passenger with id " + passengerId + " found");
 		}
@@ -52,7 +58,7 @@ public class Branch implements BranchLocal {
 	public Passenger getPassengerByEmail(String email) {
 		Document d = mdb.getPassengerByEmail(email);
 		if(d != null) {
-			return this.convertDocumentToPassenger(d);
+			return Passenger.convertDocumentToPassenger(d);
 		}else {
 			System.err.println("No passenger with email " + email + " found");
 		}
@@ -110,29 +116,11 @@ public class Branch implements BranchLocal {
 	public List<Passenger> convertDocumentList(List<Document> doc){
 		List<Passenger> passengers = new ArrayList<Passenger>();		
 		for (Document d : doc) {
-			passengers.add(this.convertDocumentToPassenger(d));
+			passengers.add(Passenger.convertDocumentToPassenger(d));
 		}
 		return passengers;
 	}
 	
-	public Passenger convertDocumentToPassenger(Document d) {
-		String passengerId = d.getString("passengerId");
-		String name = d.getString("name");
-		String surname = d.getString("surname");
-		int age;
-		try {
-			String temp = d.getString("age");
-			age = Integer.parseInt(temp);
-		}catch(ClassCastException e) {
-			try {
-				age = d.getInteger("age");
-			}catch(ClassCastException e1) {
-				age = d.getDouble("age").intValue();
-			}
-		}
-		String email = d.getString("email");
-		return new Passenger(passengerId, name, surname, age, email);
-	}
 	
 	public boolean removePassenger(String passengerId) {
 		return mdb.removePassenger(passengerId);

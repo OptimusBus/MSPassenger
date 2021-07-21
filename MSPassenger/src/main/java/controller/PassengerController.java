@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.json.JsonObject;
 //import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -15,7 +16,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
+
 import model.Passenger;
+import model.PassengerReg;
 import service.Branch;
 import service.BranchLocal;
 
@@ -30,13 +35,21 @@ public class PassengerController {
 	
 	@POST
 	@Path("/createPassenger")
-	public Response createPassenger(@QueryParam("name")String name, 
-			@QueryParam("surname")String surname, @QueryParam("age")int age, @QueryParam("email")String email){
+	public Response createPassenger(String request){
 		String message = "";
-		//URI uri = null;
+		BasicDBObject b = BasicDBObject.parse(request);
+		String username = b.getString("username");
+		String password = b.getString("password");
+		String name = b.getString("name");
+		String surname = b.getString("surname");
+		String age = b.getString("age");
+		String email = b.getString("email");
+		PassengerReg pr = new PassengerReg(username, password, email, name, surname, age);
+		//Aggiugere controllo e richiesta di registrazione con security
 		try {
-			message = branch.createPassenger(name, surname, age, email);
+			message = branch.createPassenger(pr.getName(), pr.getSurname(), pr.getAge(), pr.getEmail());
 		}catch(Exception e) {
+			e.printStackTrace();
 			message = "Error while creating new Passenger";
 			Response.serverError().entity(message).build();
 		}
