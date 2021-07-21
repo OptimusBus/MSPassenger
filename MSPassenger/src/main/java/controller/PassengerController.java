@@ -16,6 +16,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.bson.Document;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 
@@ -38,13 +40,8 @@ public class PassengerController {
 	public Response createPassenger(String request){
 		String message = "";
 		BasicDBObject b = BasicDBObject.parse(request);
-		String username = b.getString("username");
-		String password = b.getString("password");
-		String name = b.getString("name");
-		String surname = b.getString("surname");
-		String age = b.getString("age");
-		String email = b.getString("email");
-		PassengerReg pr = new PassengerReg(username, password, email, name, surname, age);
+		Document d = new Document(b);
+		PassengerReg pr = PassengerReg.convertDocumentToPassengerReg(d);
 		//Aggiugere controllo e richiesta di registrazione con security
 		try {
 			message = branch.createPassenger(pr.getName(), pr.getSurname(), pr.getAge(), pr.getEmail());
