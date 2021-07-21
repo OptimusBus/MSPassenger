@@ -72,10 +72,10 @@ public class Passenger {
 		String num = Integer.toString(n);
 		int len = num.length();
 		if(len<2)this.passengerId = "PA0000"+num;
-		if(len<3)this.passengerId = "PA000"+num;
-		if(len<4)this.passengerId = "PA00"+num;
-		if(len<5)this.passengerId = "PA0"+num;
-		if(len<6)this.passengerId = "PA"+num;
+		else if(len<3)this.passengerId = "PA000"+num;
+		else if(len<4)this.passengerId = "PA00"+num;
+		else if(len<5)this.passengerId = "PA0"+num;
+		else if(len<6)this.passengerId = "PA"+num;
 	}
 	
 }

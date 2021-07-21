@@ -14,4 +14,8 @@ public interface BranchLocal {
 	public Passenger getPassengerByEmail(String email);
 	public List<Passenger> getPassengerByName(String name);
 	public List<Passenger> getPassengerBySurname(String surname);
+	public boolean removePassenger(String passengerId);
+	public List<Passenger> getPassengerByAge(String age);
+	public List<Passenger> getPassengerByAgeGT(String age);
+	public List<Passenger> getPassengerByAgeLT(String age);
 }

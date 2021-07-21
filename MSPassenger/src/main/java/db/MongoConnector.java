@@ -9,6 +9,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.DeleteResult;
 
 import model.Passenger;
 
@@ -27,6 +28,7 @@ public class MongoConnector {
 	public Document getPassengerById(String passengerId) {
 		MongoDatabase db = m.getDatabase("PassengersDB");
 		MongoCollection<Document> coll = db.getCollection("passengers");
+		System.err.println("Request arrived on Mongo Connectori");
 		return coll.find(Filters.eq("passengerId", passengerId)).first();
 	}
 	
@@ -76,6 +78,18 @@ public class MongoConnector {
 		pass.append("age", p.getAge());
 		pass.append("email",p.getEmail());
 		coll.insertOne(pass);
+	}
+	
+	public boolean removePassenger(String passengerId) {
+		MongoDatabase db = m.getDatabase("PassengersDB");
+		MongoCollection<Document> coll = db.getCollection("passengers");
+		if(coll.find(Filters.eq("passengerId", passengerId)).first() != null) {
+			System.err.println("Sono qui");
+			DeleteResult result = coll.deleteOne(Filters.eq("passengerId", passengerId));
+			return result.wasAcknowledged();
+		}
+		return false;
+		
 	}
 	
 	public int passengerCount() {
