@@ -121,7 +121,6 @@ public class Branch implements BranchLocal {
 		return passengers;
 	}
 	
-	
 	public boolean removePassenger(String passengerId) {
 		return mdb.removePassenger(passengerId);
 	}

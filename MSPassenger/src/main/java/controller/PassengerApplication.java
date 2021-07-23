@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@ApplicationPath("/api-v1")
+@ApplicationPath("/Passenger-v1")
 public class PassengerApplication extends Application{
 	public Set<Class<?>> getClasses(){
 		Set<Class<?>> s = new HashSet<Class<?>>();

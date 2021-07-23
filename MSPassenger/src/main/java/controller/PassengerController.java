@@ -1,17 +1,12 @@
 package controller;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.json.JsonObject;
-//import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
@@ -19,7 +14,6 @@ import javax.ws.rs.core.Response;
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
 
 import model.Passenger;
 import model.PassengerReg;
@@ -48,7 +42,7 @@ public class PassengerController {
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Error while creating new Passenger";
-			Response.serverError().entity(message).build();
+			Response.status(500).entity(message).build();
 		}
 		return Response.ok().entity(message).build();
 	}
