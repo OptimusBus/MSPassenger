@@ -35,7 +35,7 @@ public class PassengerController {
 		String message = "";
 		BasicDBObject b = BasicDBObject.parse(request);
 		Document d = new Document(b);
-		PassengerReg pr = PassengerReg.convertDocumentToPassengerReg(d);
+		PassengerReg pr = PassengerReg.decodePassengerReg(d);
 		//Aggiugere controllo e richiesta di registrazione con security
 		try {
 			message = branch.createPassenger(pr.getName(), pr.getSurname(), pr.getAge(), pr.getEmail());

@@ -80,7 +80,7 @@ public class Passenger {
 		else if(len<6)this.passengerId = "PA"+num;
 	}
 	
-	static public Passenger convertDocumentToPassenger(Document d) {
+	static public Passenger decodePassenger(Document d) {
 		String passengerId = d.getString("passengerId");
 		String name = d.getString("name");
 		String surname = d.getString("surname");
@@ -99,7 +99,7 @@ public class Passenger {
 		return new Passenger(passengerId, name, surname, age, email);
 	}
 	
-	static public Document convertPassengerToDocument(Passenger p) {
+	static public Document encodePassenger(Passenger p) {
 		Document pass = new Document();
 		pass.append("passengerId", p.getPassengerId());
 		pass.append("name", p.getName());

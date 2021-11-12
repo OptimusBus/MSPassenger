@@ -14,7 +14,6 @@ import com.mongodb.client.result.DeleteResult;
 import model.Passenger;
 
 public class MongoConnector {
-	private MongoClient m = new MongoClient("172.18.10.144", 31181);
 	
 	public MongoConnector() {}
 	
@@ -71,7 +70,7 @@ public class MongoConnector {
 	public void addPassenger(Passenger p) {
 		MongoDatabase db = m.getDatabase("PassengersDB");
 		MongoCollection<Document> coll = db.getCollection("passengers");
-		Document pass = Passenger.convertPassengerToDocument(p);
+		Document pass = Passenger.encodePassenger(p);
 		coll.insertOne(pass);
 	}
 	
@@ -95,4 +94,6 @@ public class MongoConnector {
 	public void close() {
 		this.m.close();
 	}
+	
+	private static final MongoClient m = new MongoClient("132.121.170.248",31183);
 }
