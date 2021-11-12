@@ -80,7 +80,20 @@ public class Passenger {
 		else if(len<6)this.passengerId = "PA"+num;
 	}
 	
+	public static String generateId(int n) {
+		String num = Integer.toString(n);
+		String id = "";
+		int len = num.length();
+		if(len<2)id = "PA0000"+num;
+		else if(len<3)id = "PA000"+num;
+		else if(len<4)id = "PA00"+num;
+		else if(len<5)id = "PA0"+num;
+		else if(len<6)id = "PA"+num;
+		return id;
+	}
+	
 	static public Passenger decodePassenger(Document d) {
+		if(d.size()<=0) return null;
 		String passengerId = d.getString("passengerId");
 		String name = d.getString("name");
 		String surname = d.getString("surname");

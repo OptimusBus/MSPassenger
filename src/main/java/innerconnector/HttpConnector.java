@@ -43,9 +43,22 @@ public class HttpConnector {
 		}
 	}
 	
-	/*
-	 * Add request to security (If needed)
+	/**
+	 * Request the passengerReg for the given passengerId from MSSecurity service
+	 * @param passengerId of the passengerReg
+	 * @return a Response
 	 */
+	public static Response getPassengerReg(String passengerId) {
+		return makeRequest(securityAddr, "/"+passengerId, Method.GET, null, null);
+	}
+	/**
+	 * Request the creation of a PassengerReg from JSON data to the MSSecurity service
+	 * @param request JSON data of the passengerReg to be registered
+	 * @return a Response containing the result of the operation
+	 */
+	public static Response createPassengerReg(String request) {
+		return makeRequest(securityAddr, "", Method.POST, null, request);
+	}
 	
 	private static final String securityAddr="";
 	public static enum Method {GET, POST, PUT, DELETE}

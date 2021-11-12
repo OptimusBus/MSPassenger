@@ -16,7 +16,6 @@ import org.bson.Document;
 import com.mongodb.BasicDBObject;
 
 import model.Passenger;
-import model.PassengerReg;
 import service.Branch;
 import service.BranchLocal;
 
@@ -32,19 +31,16 @@ public class PassengerController {
 	@POST
 	@Path("/createPassenger")
 	public Response createPassenger(String request){
-		String message = "";
+		Passenger pass = new Passenger();
 		BasicDBObject b = BasicDBObject.parse(request);
 		Document d = new Document(b);
-		PassengerReg pr = PassengerReg.decodePassengerReg(d);
-		//Aggiugere controllo e richiesta di registrazione con security
 		try {
-			message = branch.createPassenger(pr.getName(), pr.getSurname(), pr.getAge(), pr.getEmail());
+			pass = branch.createPassenger(d);
 		}catch(Exception e) {
 			e.printStackTrace();
-			message = "Error while creating new Passenger";
-			Response.status(500).entity(message).build();
+			Response.status(500).entity("Error while creating the passenger").build();
 		}
-		return Response.ok().entity(message).build();
+		return Response.ok().entity(pass).build();
 	}
 	
 	@GET
@@ -115,6 +111,6 @@ public class PassengerController {
 	public Response removePassenger(@QueryParam("passengerId")String passengerId) {
 		boolean flag = branch.removePassenger(passengerId);
 		if(flag)return Response.ok().entity("Passenger with id: "+passengerId+" is deleted").build();
-		return Response.noContent().entity("Impossible to remove the passenger with id: "+passengerId).build();
+		return Response.status(500).entity("Impossible to remove the passenger with id: "+passengerId).build();
 	}
 }

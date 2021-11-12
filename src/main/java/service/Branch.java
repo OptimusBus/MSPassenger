@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ws.rs.core.Response;
 
 import org.bson.Document;
 
 import db.MongoConnector;
+import innerconnector.HttpConnector;
 import model.Passenger;
 
 @Stateless
@@ -24,18 +26,17 @@ public class Branch implements BranchLocal {
 	 * @return the passengerId
 	 */
 	@Override
-	public String createPassenger(String name, String surname, int age, String email) {
-		Passenger p = new Passenger(name, surname, age, email);
-		p.createId(mdb.passengerCount()+1);
-		Document temp = mdb.getPassengerById(p.getPassengerId());
-		int c = 1;
-		while(temp != null) {
-			c++;
-			p.createId(mdb.passengerCount()+c);
-			temp = mdb.getPassengerById(p.getPassengerId());
-		}
+	public Passenger createPassenger(Document d) {
+		int numpass =mdb.passengerCount();
+		String id = Passenger.generateId(numpass);
+		d.append("passengerId", id);
+		Response r = HttpConnector.createPassengerReg(d.toJson());
+		if(r.getStatus() != 200)return null;
+		Passenger p = Passenger.decodePassenger(d);
 		mdb.createPassenger(p);
-		return p.getPassengerId();
+		Document v = mdb.getPassengerById(id);
+		if(v.size()<0) return null;
+		return p;
 	}
 	
 	/**

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import org.bson.Document;
+
 import model.Passenger;
 
 @Local
@@ -16,7 +18,7 @@ public interface BranchLocal {
 	 * @param email the email of the passenger
 	 * @return the passengerId
 	 */
-	public String createPassenger(String name, String surname, int i, String email);
+	public Passenger createPassenger(Document d);
 	
 	/**
 	 * Get all the passengers stored on DB
