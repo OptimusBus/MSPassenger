@@ -4,6 +4,10 @@
 	<artifactId>MSPassenger</artifactId>
 	<version>1</version>
 	<groupId>optimusbus</groupId>
+	<properties>
+    	<maven.compiler.target>1.8</maven.compiler.target>
+    	<maven.compiler.source>1.8</maven.compiler.source>
+	</properties>
 	<dependencies>
 	    <dependency>
 	        <groupId>org.mongodb</groupId>
