@@ -47,6 +47,6 @@ public class HttpConnector {
 	 * Add request to security (If needed)
 	 */
 	
-	private static final String securityAddr="http://127.0.0.1:8080/MSRoadNetwork/RoadNetworkApplication-1.0/roadNetwork/";
+	private static final String securityAddr="";
 	public static enum Method {GET, POST, PUT, DELETE}
 }
