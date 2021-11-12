@@ -81,4 +81,10 @@ public interface BranchLocal {
 	 * @return the List<Passenger> found or null if there aren't no passenger with age less than the parameter 
 	 */
 	public List<Passenger> getPassengerByAgeLT(String age);
+	/**
+	 * Get passenger by username
+	 * @param username of the passenger
+	 * @return The passenger for given username
+	 */
+	public Passenger getPassengerByUsername(String username);
 }

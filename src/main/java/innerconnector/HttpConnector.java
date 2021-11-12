@@ -12,14 +12,13 @@ public class HttpConnector {
 	
 	/**
 	 * Generic request maker for Http request
-	 * @param baseAddress the address of the service
 	 * @param url the url of the request
 	 * @param m the type of request to execute (GET, POST, DELETE, PUT)
 	 * @param queryParam a map of query param - value for multiple param GET request
 	 * @param params the params for POST and PUT request
 	 * @return a Response or null
 	 */
-	private static Response makeRequest(String baseAddress, String url, Method m, Map<String,String> queryParam, String params) {	
+	private static Response makeRequest(String url, Method m, Map<String,String> queryParam, String params) {	
 		WebClient client = WebClient.create(baseAddress);
 		client.accept("application/json");
 		client.type("application/json");
@@ -49,17 +48,28 @@ public class HttpConnector {
 	 * @return a Response
 	 */
 	public static Response getPassengerReg(String passengerId) {
-		return makeRequest(securityAddr, "/"+passengerId, Method.GET, null, null);
+		return makeRequest("/security/"+passengerId, Method.GET, null, null);
 	}
+	
 	/**
 	 * Request the creation of a PassengerReg from JSON data to the MSSecurity service
 	 * @param request JSON data of the passengerReg to be registered
 	 * @return a Response containing the result of the operation
 	 */
 	public static Response createPassengerReg(String request) {
-		return makeRequest(securityAddr, "", Method.POST, null, request);
+		return makeRequest("/security/", Method.POST, null, request);
 	}
 	
-	private static final String securityAddr="";
+	/**
+	 * Request PassengerReg object from MSSecurity by username 
+	 * @param username
+	 * @return a Response
+	 */
+	public static Response getPassengerRegByUsername(String username) {
+		return makeRequest("/security/getPassengerReg/"+username, Method.GET, null, null);
+	}
+	
+	private static final String baseAddress = "http://gateway-optimusbus.router.default.svc.cluster.local/optimusbus";
 	public static enum Method {GET, POST, PUT, DELETE}
+	
 }

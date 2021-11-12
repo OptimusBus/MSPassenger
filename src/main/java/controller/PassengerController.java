@@ -7,6 +7,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
@@ -34,6 +35,7 @@ public class PassengerController {
 		Passenger pass = new Passenger();
 		BasicDBObject b = BasicDBObject.parse(request);
 		Document d = new Document(b);
+		if(d.size()<= 0)return  Response.status(500).entity("Error while creating the passenger").build();
 		try {
 			pass = branch.createPassenger(d);
 			if(pass != null)return Response.ok().entity(pass).build();
@@ -45,7 +47,8 @@ public class PassengerController {
 	}
 	
 	@GET
-	public Response getPassenger(@QueryParam("passengerId")String passengerId) {
+	@Path("/{passengerId}")
+	public Response getPassenger(@PathParam("passengerId")String passengerId) {
 		Passenger p = branch.getPassengerById(passengerId);
 		if(p != null)return Response.ok().entity(p).build();
 		return Response.noContent().entity("No passenger found with id: "+passengerId).build();
@@ -104,6 +107,22 @@ public class PassengerController {
 	public Response getPassengersByAgeLT(@QueryParam("age")String age) {
 		List<Passenger> pass = branch.getPassengerByAgeLT(age);
 		if(pass != null)return Response.ok().entity(pass).build();
+		return Response.noContent().entity("No passengers found").build();
+	}
+	
+	@GET
+	@Path("/getByUsername")
+	public Response getPassengersByUsername(@QueryParam("username") String username) {
+		Passenger p = branch.getPassengerByUsername(username);
+		if(p != null)return Response.ok().entity(p).build();
+		return Response.noContent().entity("No passengers found").build();
+	}
+	
+	@GET
+	@Path("/getEmail/{passengerId}")
+	public Response getEmailFromPassengerId(@PathParam("passengerId") String passengerId) {
+		Passenger p = branch.getPassengerById(passengerId);
+		if(p != null)return Response.ok().entity(p.getEmail()).build();
 		return Response.noContent().entity("No passengers found").build();
 	}
 	

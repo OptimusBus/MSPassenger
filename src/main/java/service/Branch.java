@@ -27,7 +27,7 @@ public class Branch implements BranchLocal {
 	 */
 	@Override
 	public Passenger createPassenger(Document d) {
-		int numpass =mdb.passengerCount();
+		int numpass = mdb.passengerCount();
 		String id = Passenger.generateId(numpass);
 		d.append("passengerId", id);
 		Response r = HttpConnector.createPassengerReg(d.toJson());
@@ -35,7 +35,11 @@ public class Branch implements BranchLocal {
 		Passenger p = Passenger.decodePassenger(d);
 		mdb.createPassenger(p);
 		Document v = mdb.getPassengerById(id);
-		if(v.size()<0) return null;
+		if(v.size()<0) {
+			//tell security service to remove passengerReg if
+			//create passenger
+			return null;
+		}
 		return p;
 	}
 	
@@ -186,6 +190,15 @@ public class Branch implements BranchLocal {
 		return passengers;
 	}
 	
+	@Override
+	public Passenger getPassengerByUsername(String username) {
+		Response r = HttpConnector.getPassengerRegByUsername(username);
+		if(r.getStatus() != 200)return null;
+		Document d = Document.parse(r.readEntity(String.class));
+		Document p = mdb.getPassengerById(d.getString("passengerId"));
+		if(d.size() <= 0)return null;
+		return Passenger.decodePassenger(p);
+	}
 	
 	private MongoConnector mdb = new MongoConnector();
 }
