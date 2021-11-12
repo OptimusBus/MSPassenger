@@ -36,11 +36,12 @@ public class PassengerController {
 		Document d = new Document(b);
 		try {
 			pass = branch.createPassenger(d);
+			if(pass != null)return Response.ok().entity(pass).build();
 		}catch(Exception e) {
 			e.printStackTrace();
-			Response.status(500).entity("Error while creating the passenger").build();
+			return Response.status(500).entity("Error while creating the passenger").build();
 		}
-		return Response.ok().entity(pass).build();
+		return Response.status(500).entity("Error while creating the passenger").build();
 	}
 	
 	@GET
