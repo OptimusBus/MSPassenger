@@ -34,12 +34,6 @@ public class Branch implements BranchLocal {
 		if(r.getStatus() != 200)return null;
 		Passenger p = Passenger.decodePassenger(d);
 		mdb.createPassenger(p);
-		Document v = mdb.getPassengerById(id);
-		if(v.size()<0) {
-			//tell security service to remove passengerReg if
-			//create passenger
-			return null;
-		}
 		return p;
 	}
 	
