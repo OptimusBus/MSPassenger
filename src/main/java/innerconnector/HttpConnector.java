@@ -48,7 +48,7 @@ public class HttpConnector {
 	 * @return a Response
 	 */
 	public static Response getPassengerReg(String passengerId) {
-		return makeRequest("/security/"+passengerId, Method.GET, null, null);
+		return makeRequest("/security/getPassengerRegById/"+passengerId, Method.GET, null, null);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class HttpConnector {
 	 * @return a Response containing the result of the operation
 	 */
 	public static Response createPassengerReg(String request) {
-		return makeRequest("/security/", Method.POST, null, request);
+		return makeRequest("/security/requestPassengerReg", Method.POST, null, request);
 	}
 	
 	/**
