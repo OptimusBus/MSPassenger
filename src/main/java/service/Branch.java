@@ -30,7 +30,8 @@ public class Branch implements BranchLocal{
 		String id = Passenger.generateId(numpass+1);
 		d.append("passengerId", id);
 		Response r = HttpConnector.createPassengerReg(d.toJson());
-		if(r.getStatus() != 200)return null;
+		System.out.print(r.getStatus());
+		if(r.getStatus() != 201)return null;
 		Passenger p = Passenger.decodePassenger(d);
 		mdb.createPassenger(p);
 		return p;

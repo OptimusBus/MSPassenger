@@ -36,7 +36,7 @@ public class PassengerController {
 		Passenger pass = new Passenger();
 		BasicDBObject b = BasicDBObject.parse(request);
 		Document d = new Document(b);
-		if(d.size()<= 0)return  Response.status(500).entity("Error while creating the passenger").build();
+		if(d.size()<= 0)return  Response.status(500).entity("Empty document").build();
 		try {
 			pass = branch.createPassenger(d);
 			if(pass != null)return Response.ok(new URI("/passengers/"+pass.getPassengerId())).build();
@@ -44,7 +44,7 @@ public class PassengerController {
 			e.printStackTrace();
 			return Response.status(500).entity("Error while creating the passenger").build();
 		}
-		return Response.status(500).entity("Error while creating the passenger").build();
+		return Response.status(500).entity("Impossible to create passenger").build();
 	}
 	
 	@GET
