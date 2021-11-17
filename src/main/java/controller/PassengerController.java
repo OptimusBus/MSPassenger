@@ -1,5 +1,6 @@
 package controller;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -38,7 +39,7 @@ public class PassengerController {
 		if(d.size()<= 0)return  Response.status(500).entity("Error while creating the passenger").build();
 		try {
 			pass = branch.createPassenger(d);
-			if(pass != null)return Response.ok().entity(pass).build();
+			if(pass != null)return Response.ok(new URI("/passengers/"+pass.getPassengerId())).build();
 		}catch(Exception e) {
 			e.printStackTrace();
 			return Response.status(500).entity("Error while creating the passenger").build();
@@ -50,7 +51,7 @@ public class PassengerController {
 	@Path("/{passengerId}")
 	public Response getPassenger(@PathParam("passengerId")String passengerId) {
 		Passenger p = branch.getPassengerById(passengerId);
-		if(p != null)return Response.ok().entity(p).build();
+		if(p != null)return Response.ok(p).build();
 		return Response.noContent().entity("No passenger found with id: "+passengerId).build();
 	}
 	
@@ -58,7 +59,7 @@ public class PassengerController {
 	@Path("/all")
 	public Response getAllPassengers() {
 		List<Passenger> pass = branch.getAllPassenger();
-		if(pass != null)return Response.ok().entity(pass).build();
+		if(pass != null)return Response.ok(pass).build();
 		return Response.noContent().entity("No passengers found").build();
 	}
 	
@@ -66,7 +67,7 @@ public class PassengerController {
 	@Path("/getByEmail")
 	public Response getPassengersByEmail(@QueryParam("email")String email) {
 		Passenger pass = branch.getPassengerByEmail(email);
-		if(pass != null)return Response.ok().entity(pass).build();
+		if(pass != null)return Response.ok(pass).build();
 		return Response.noContent().entity("No passengers found").build();
 	}
 	
@@ -74,7 +75,7 @@ public class PassengerController {
 	@Path("/getByName")
 	public Response getPassengersByName(@QueryParam("name")String name) {
 		List<Passenger> pass = branch.getPassengerByName(name);
-		if(pass != null)return Response.ok().entity(pass).build();
+		if(pass != null)return Response.ok(pass).build();
 		return Response.noContent().entity("No passengers found").build();
 	}
 	
@@ -82,7 +83,7 @@ public class PassengerController {
 	@Path("/getBySurname")
 	public Response getPassengersBySurname(@QueryParam("surname")String surname) {
 		List<Passenger> pass = branch.getPassengerBySurname(surname);
-		if(pass != null)return Response.ok().entity(pass).build();
+		if(pass != null)return Response.ok(pass).build();
 		return Response.noContent().entity("No passengers found").build();
 	}
 	
@@ -90,7 +91,7 @@ public class PassengerController {
 	@Path("/getByAge")
 	public Response getPassengersByAge(@QueryParam("age")String age) {
 		List<Passenger> pass = branch.getPassengerByAge(age);
-		if(pass != null)return Response.ok().entity(pass).build();
+		if(pass != null)return Response.ok(pass).build();
 		return Response.noContent().entity("No passengers found").build();
 	}
 	
@@ -98,7 +99,7 @@ public class PassengerController {
 	@Path("/getByAgeGT")
 	public Response getPassengersByAgeGT(@QueryParam("age")String age) {
 		List<Passenger> pass = branch.getPassengerByAgeGT(age);
-		if(pass != null)return Response.ok().entity(pass).build();
+		if(pass != null)return Response.ok(pass).build();
 		return Response.noContent().entity("No passengers found").build();
 	}
 	
@@ -106,7 +107,7 @@ public class PassengerController {
 	@Path("/getByAgeLT")
 	public Response getPassengersByAgeLT(@QueryParam("age")String age) {
 		List<Passenger> pass = branch.getPassengerByAgeLT(age);
-		if(pass != null)return Response.ok().entity(pass).build();
+		if(pass != null)return Response.ok(pass).build();
 		return Response.noContent().entity("No passengers found").build();
 	}
 	
@@ -114,7 +115,7 @@ public class PassengerController {
 	@Path("/getByUsername")
 	public Response getPassengersByUsername(@QueryParam("username") String username) {
 		Passenger p = branch.getPassengerByUsername(username);
-		if(p != null)return Response.ok().entity(p).build();
+		if(p != null)return Response.ok(p).build();
 		return Response.noContent().entity("No passengers found").build();
 	}
 	
@@ -122,7 +123,7 @@ public class PassengerController {
 	@Path("/getEmail/{passengerId}")
 	public Response getEmailFromPassengerId(@PathParam("passengerId") String passengerId) {
 		Passenger p = branch.getPassengerById(passengerId);
-		if(p != null)return Response.ok().entity(p.getEmail()).build();
+		if(p != null)return Response.ok(p.getEmail()).build();
 		return Response.noContent().entity("No passengers found").build();
 	}
 	
@@ -130,7 +131,7 @@ public class PassengerController {
 	@Path("/removePassenger")
 	public Response removePassenger(@QueryParam("passengerId")String passengerId) {
 		boolean flag = branch.removePassenger(passengerId);
-		if(flag)return Response.ok().entity("Passenger with id: "+passengerId+" is deleted").build();
+		if(flag)return Response.ok("Passenger with id: "+passengerId+" is deleted").build();
 		return Response.status(500).entity("Impossible to remove the passenger with id: "+passengerId).build();
 	}
 }
