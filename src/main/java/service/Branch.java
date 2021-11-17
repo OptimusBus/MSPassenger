@@ -12,8 +12,7 @@ import db.MongoConnector;
 import innerconnector.HttpConnector;
 import model.Passenger;
 
-@Stateless
-public class Branch implements BranchLocal {
+public class Branch implements BranchLocal{
 	
 	public Branch(){}
 	
