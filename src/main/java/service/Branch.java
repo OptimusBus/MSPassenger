@@ -27,8 +27,8 @@ public class Branch implements BranchLocal{
 	@Override
 	public Passenger createPassenger(Document d) {
 		int numpass = mdb.passengerCount();
-		String id = Passenger.generateId(numpass);
-		d.append("passengerId", id+1);
+		String id = Passenger.generateId(numpass+1);
+		d.append("passengerId", id);
 		Response r = HttpConnector.createPassengerReg(d.toJson());
 		if(r.getStatus() != 200)return null;
 		Passenger p = Passenger.decodePassenger(d);
